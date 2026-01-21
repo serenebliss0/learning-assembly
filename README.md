@@ -37,7 +37,7 @@ Includes:
 - Components you need to build a computer
 - How CPUs, RAM, and buses work
 - Building a W65C02-based computer (Ben Eater style)
-- Understanding PC architecture (x86)
+- RISC-V development boards and open hardware
 - Tools you'll need
 
 ## 📖 Repository Structure
