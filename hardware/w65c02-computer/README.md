@@ -58,6 +58,8 @@ Before starting:
 | HD44780 LCD (16x2) | 1 | Display | ~$10 |
 | 65C22 VIA (optional) | 1 | I/O expansion | ~$8 |
 
+**Note on availability:** W65C02S and 65C22 are still manufactured by Western Design Center but may have limited stock at some distributors. Check multiple suppliers (Mouser, Digi-Key, Jameco) or order directly from WDC. The 74HC series and memory chips are widely available.
+
 ### Passive Components
 
 - Resistors: 1KΩ (×10), 10KΩ (×10), 3.3KΩ (×1)

@@ -344,8 +344,8 @@ Common issues:
 
 ### Datasheets
 
-- [W65C02S Datasheet](http://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf)
-- [65C22 VIA Datasheet](http://www.westerndesigncenter.com/wdc/documentation/w65c22.pdf)
+- [W65C02S Datasheet](http://www.westerndesigncenter.com/wdc/documentation/w65c02s.pdf) (If link breaks, search "W65C02S datasheet")
+- [65C22 VIA Datasheet](http://www.westerndesigncenter.com/wdc/documentation/w65c22.pdf) (If link breaks, search "65C22 datasheet")
 
 ### Tutorials
 
