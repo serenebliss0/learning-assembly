@@ -61,23 +61,24 @@ Build a simple but complete computer from scratch!
 - I/O interfacing
 - Debugging hardware
 
-#### Option 2: Understanding x86 PCs
+#### Option 2: RISC-V Development Boards
 
-**[→ PC Architecture Guide](./pc-architecture/README.md)**
+**[→ RISC-V Hardware Guide](./riscv-boards/README.md)**
 
-Can't build an x86 PC from scratch (too complex), but you can understand it!
+Explore RISC-V open-source hardware!
 
-- How modern PCs work
-- BIOS/UEFI firmware
-- Boot process
-- PCI/PCIe buses
-- Chipsets and architecture
+- Affordable development boards
+- Open-source CPU implementations
+- Growing ecosystem
+- Can program in assembly directly
+- Option to implement on FPGA
 
-**What you'll learn:**
-- Modern CPU architecture
-- Memory hierarchy (cache, RAM, storage)
-- Peripheral interfaces
-- Firmware and booting
+**What you'll explore:**
+- RISC-V development boards (HiFive1, etc.)
+- Running bare metal RISC-V code
+- FPGA implementations (PicoRV32, NEORV32)
+- Understanding RISC CPU design
+- Open-source hardware ecosystem
 - Why PCs are designed the way they are
 
 ## Component Guides

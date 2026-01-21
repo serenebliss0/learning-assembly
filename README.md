@@ -17,10 +17,10 @@ Don't worry if it seems scary - we'll take it step by step, just like we did wit
 
 This repository covers TWO assembly languages:
 
-### 🖥️ Path 1: x86 Assembly (Modern PC Architecture)
-Perfect for understanding modern computers, operating systems, and desktop applications.
+### 🖥️ Path 1: RISC-V Assembly (Modern Open Architecture)
+Perfect for understanding modern computer architecture with a clean, simple instruction set. RISC-V is open-source and increasingly popular in embedded systems and education.
 
-**[Start Here: x86 Learning Path →](./x86/README.md)**
+**[Start Here: RISC-V Learning Path →](./riscv/README.md)**
 
 ### 🔧 Path 2: W65C02 Assembly (Simple Computer Building)
 Based on the classic 6502 processor - ideal for building your own simple computer from scratch!
@@ -44,7 +44,7 @@ Includes:
 
 ```
 learning-assembly/
-├── x86/                    # x86 Assembly (Modern PC)
+├── riscv/                  # RISC-V Assembly (Modern Open Architecture)
 │   ├── lessons/            # Step-by-step lessons
 │   ├── examples/           # Code examples
 │   └── projects/           # Hands-on projects
@@ -54,7 +54,7 @@ learning-assembly/
 │   └── projects/           # Hands-on projects
 ├── hardware/               # Hardware guides & schematics
 │   ├── w65c02-computer/    # Building a W65C02 computer
-│   ├── pc-architecture/    # Understanding x86 PCs
+│   ├── riscv-boards/       # RISC-V development boards
 │   └── components/         # Component guides
 └── resources/              # References, tools, links
 ```
@@ -65,7 +65,7 @@ learning-assembly/
 1. Read [What is Assembly?](./resources/what-is-assembly.md)
 2. Choose your path:
    - **Want to build a simple computer?** → Start with W65C02
-   - **Want to understand modern PCs?** → Start with x86
+   - **Want modern, clean architecture?** → Start with RISC-V
 3. Follow the lessons in order
 4. Try the examples and projects
 5. Explore the hardware guides
@@ -74,14 +74,14 @@ learning-assembly/
 1. Start with W65C02 path (simpler to understand)
 2. Read the [W65C02 Computer Building Guide](./hardware/w65c02-computer/README.md)
 3. Work through W65C02 lessons alongside building
-4. Once comfortable, explore x86 for modern systems
+4. Once comfortable, explore RISC-V for modern open-source systems
 
 ## 🔧 Tools You'll Need
 
-### For x86 Assembly:
-- **Linux**: NASM (assembler), ld (linker), gdb (debugger)
-- **Windows**: NASM, MASM, or Visual Studio
-- **macOS**: NASM with Xcode tools
+### For RISC-V Assembly:
+- RISC-V GNU toolchain (assembler, linker, debugger)
+- QEMU or Spike (RISC-V emulator)
+- Optional: RISC-V development board (HiFive1, Sipeed, etc.)
 
 ### For W65C02 Assembly:
 - cc65 toolchain (assembler for 6502/65C02)
@@ -89,7 +89,7 @@ learning-assembly/
 - For hardware: W65C02 chip, breadboard, components (see hardware guide)
 
 ### Installation Guides:
-- [Setting up x86 Development Environment](./x86/setup.md)
+- [Setting up RISC-V Development Environment](./riscv/setup.md)
 - [Setting up W65C02 Development Environment](./w65c02/setup.md)
 
 ## 📝 How to Use This Repository
@@ -105,7 +105,7 @@ Work through lessons sequentially - each builds on the previous ones!
 
 ## 🌟 Getting Started
 
-1. **Pick your path**: W65C02 (for hardware) or x86 (for modern PCs)
+1. **Pick your path**: W65C02 (for DIY hardware) or RISC-V (for modern open architecture)
 2. **Set up your environment**: Follow the setup guide
 3. **Start with Lesson 1**: Follow along, type the code, experiment!
 4. **Build projects**: Apply what you learn
@@ -139,7 +139,7 @@ This repository is for educational purposes. Code examples are free to use and m
 ---
 
 **Ready to start?** Choose your adventure:
-- [x86 Assembly Path →](./x86/README.md)
+- [RISC-V Assembly Path →](./riscv/README.md)
 - [W65C02 Assembly Path →](./w65c02/README.md)
 - [Hardware Building Guide →](./hardware/README.md)
 
