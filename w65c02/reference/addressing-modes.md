@@ -184,11 +184,15 @@ loop:
 
 **Memory Access:** ($nn + X) & $FF (wraps at zero page boundary)
 
-**Wrapping Example:**
+**Wrapping Example (Common Bug!):**
 ```asm
     LDX #$10
     LDA $F8,X     ; Accesses $08, not $108!
+                  ; Zero page wraps at $FF boundary
+                  ; This is 8-bit addition: ($F8 + $10) & $FF = $08
 ```
+
+**Important:** Zero page wrapping is a frequent source of bugs. Always ensure your indexed calculations stay within zero page boundaries.
 
 ---
 

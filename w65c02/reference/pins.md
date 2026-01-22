@@ -276,8 +276,8 @@ PHI1O   ───┐   ┌───┐   ┌───┐
 6. Execution starts at reset vector address
 
 **Power-On Reset:**
-- Must hold low for at least 2 cycles after VDD stable
-- Typical: 100ms delay with RC circuit
+- Must hold low for at least 2 cycles after VDD stable (≥4.75V typical)
+- Typical: 100ms delay with RC circuit to ensure VDD stabilization
 
 **Reset Circuit:**
 ```
