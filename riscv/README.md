@@ -213,6 +213,341 @@ You can also run RISC-V on FPGAs:
 - NEORV32 - Full-featured RISC-V SoC
 - Various Xilinx/Intel FPGA boards
 
+## Running RISC-V Code on Real Hardware
+
+Ready to move beyond simulation? Here's a complete guide to running your RISC-V assembly on actual hardware!
+
+### Development Environment Setup
+
+#### 1. Install RISC-V Toolchain
+
+**Linux (Ubuntu/Debian):**
+```bash
+sudo apt-get install gcc-riscv64-unknown-elf binutils-riscv64-unknown-elf
+```
+
+**macOS:**
+```bash
+brew install riscv-gnu-toolchain
+```
+
+**From Source:**
+```bash
+git clone https://github.com/riscv/riscv-gnu-toolchain
+cd riscv-gnu-toolchain
+./configure --prefix=/opt/riscv --with-arch=rv32i --with-abi=ilp32
+make
+```
+
+#### 2. Install Programming Tools
+
+**For Longan Nano (DFU):**
+```bash
+sudo apt-get install dfu-util
+```
+
+**For ESP32-C3:**
+```bash
+pip install esptool
+```
+
+**For SiFive boards (OpenOCD):**
+```bash
+sudo apt-get install openocd
+```
+
+### Getting Started with Different Boards
+
+#### Sipeed Longan Nano ($5-10)
+
+**Specs:**
+- RISC-V GD32VF103 @ 108 MHz
+- 32KB SRAM, 128KB Flash
+- Built-in RGB LED, USB-C
+- Arduino-compatible headers
+
+**Quick Start:**
+
+1. **Write your code** (`blink.s`):
+```assembly
+.section .text
+.globl _start
+_start:
+    li t0, 0x40010C00      # GPIO base
+    li t1, 0x00300000      # Configure output
+    sw t1, 0(t0)
+loop:
+    li t1, 0x20
+    sw t1, 12(t0)          # LED on
+    call delay
+    sw zero, 12(t0)        # LED off
+    call delay
+    j loop
+delay:
+    li t0, 1000000
+1:  addi t0, t0, -1
+    bnez t0, 1b
+    ret
+```
+
+2. **Assemble and link:**
+```bash
+riscv64-unknown-elf-as -march=rv32imac -mabi=ilp32 -o blink.o blink.s
+riscv64-unknown-elf-ld -T linker.ld -o blink.elf blink.o
+riscv64-unknown-elf-objcopy -O binary blink.elf blink.bin
+```
+
+3. **Flash to board:**
+```bash
+# Hold BOOT button, press RESET, release BOOT
+dfu-util -a 0 -s 0x08000000:leave -D blink.bin
+```
+
+**Resources:**
+- [Longan Nano Datasheet](https://dl.sipeed.com/shareURL/LONGAN/Nano)
+- [GD32VF103 User Manual](https://www.gigadevice.com/products/microcontrollers/gd32/risc-v/)
+
+#### ESP32-C3 ($5-10)
+
+**Specs:**
+- RISC-V @ 160 MHz
+- WiFi + Bluetooth
+- 400KB SRAM, 4MB Flash
+- USB-C programming
+
+**Quick Start:**
+
+1. **Install ESP-IDF:**
+```bash
+git clone --recursive https://github.com/espressif/esp-idf.git
+cd esp-idf
+./install.sh esp32c3
+. ./export.sh
+```
+
+2. **Create project and write assembly code**
+
+3. **Build and flash:**
+```bash
+idf.py build
+idf.py -p /dev/ttyUSB0 flash
+idf.py -p /dev/ttyUSB0 monitor
+```
+
+**Resources:**
+- [ESP32-C3 Documentation](https://docs.espressif.com/projects/esp-idf/en/latest/esp32c3/)
+- [Technical Reference Manual](https://www.espressif.com/sites/default/files/documentation/esp32-c3_technical_reference_manual_en.pdf)
+
+#### HiFive1 Rev B / SparkFun RED-V ($60)
+
+**Specs:**
+- SiFive FE310 @ 320 MHz
+- 16KB SRAM, 4MB Flash
+- Professional quality
+- Arduino IDE support
+
+**Quick Start:**
+
+1. **Using Freedom E SDK:**
+```bash
+git clone https://github.com/sifive/freedom-e-sdk.git
+cd freedom-e-sdk
+# Follow their documentation
+```
+
+2. **Using Arduino IDE:**
+- Install SiFive board support
+- Write code in Arduino IDE
+- Upload via USB
+
+**Resources:**
+- [HiFive1 Getting Started](https://www.sifive.com/boards/hifive1-rev-b)
+- [Freedom E SDK](https://github.com/sifive/freedom-e-sdk)
+
+### Bare Metal Programming Workflow
+
+#### Memory Map
+
+Understanding your board's memory layout is crucial:
+
+**Typical RISC-V Microcontroller:**
+```
+0x00000000 - 0x0001FFFF : Flash (program memory)
+0x20000000 - 0x20007FFF : SRAM (data memory)
+0x40000000 - 0x5FFFFFFF : Peripherals (GPIO, UART, etc.)
+```
+
+#### Linker Script
+
+Every bare metal program needs a linker script (`linker.ld`):
+
+```ld
+MEMORY
+{
+    FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 128K
+    RAM (rwx)  : ORIGIN = 0x20000000, LENGTH = 32K
+}
+
+SECTIONS
+{
+    .text : {
+        KEEP(*(.text._start))
+        *(.text*)
+    } > FLASH
+    
+    .rodata : { *(.rodata*) } > FLASH
+    .data : { *(.data*) } > RAM AT > FLASH
+    .bss : { *(.bss*) } > RAM
+    
+    _stack_top = ORIGIN(RAM) + LENGTH(RAM);
+}
+```
+
+#### Startup Code
+
+Minimal startup code to initialize the processor:
+
+```assembly
+.section .text._start
+.globl _start
+
+_start:
+    # Set up stack pointer
+    la sp, _stack_top
+    
+    # Zero the BSS section
+    la t0, _bss_start
+    la t1, _bss_end
+bss_loop:
+    bge t0, t1, bss_done
+    sw zero, 0(t0)
+    addi t0, t0, 4
+    j bss_loop
+bss_done:
+    
+    # Copy .data section from flash to RAM
+    la t0, _data_load
+    la t1, _data_start
+    la t2, _data_end
+data_loop:
+    bge t1, t2, data_done
+    lw t3, 0(t0)
+    sw t3, 0(t1)
+    addi t0, t0, 4
+    addi t1, t1, 4
+    j data_loop
+data_done:
+    
+    # Call main
+    jal ra, main
+    
+    # Infinite loop if main returns
+halt:
+    j halt
+```
+
+#### GPIO Control
+
+Example of controlling GPIO (LED):
+
+```assembly
+# For GD32VF103 (Longan Nano)
+.equ GPIOB_BASE, 0x40010C00
+.equ GPIO_CTL0,  0x00          # Configuration register
+.equ GPIO_OCTL,  0x0C          # Output control register
+
+init_led:
+    li t0, GPIOB_BASE
+    li t1, 0x00300000          # Configure PB5 as output
+    sw t1, GPIO_CTL0(t0)
+    ret
+
+led_on:
+    li t0, GPIOB_BASE
+    li t1, (1 << 5)
+    sw t1, GPIO_OCTL(t0)
+    ret
+
+led_off:
+    li t0, GPIOB_BASE
+    sw zero, GPIO_OCTL(t0)
+    ret
+```
+
+### Debugging on Hardware
+
+#### Serial Output (UART)
+
+Add debug output via UART:
+
+```assembly
+# Initialize UART
+init_uart:
+    li t0, USART0_BASE
+    li t1, 0x0C             # 115200 baud, 8N1
+    sw t1, USART_BRR(t0)
+    li t1, 0x2008           # Enable TX
+    sw t1, USART_CR1(t0)
+    ret
+
+# Print character
+putchar:
+    li t0, USART0_BASE
+1:  lw t1, USART_SR(t0)
+    andi t1, t1, 0x80       # Wait for TXE
+    beqz t1, 1b
+    sb a0, USART_DR(t0)
+    ret
+```
+
+#### Using OpenOCD + GDB
+
+For boards with JTAG/SWD:
+
+```bash
+# Terminal 1: Start OpenOCD
+openocd -f interface/jlink.cfg -f target/riscv32.cfg
+
+# Terminal 2: Start GDB
+riscv64-unknown-elf-gdb program.elf
+(gdb) target remote :3333
+(gdb) load
+(gdb) break main
+(gdb) continue
+```
+
+### Common Hardware Pitfalls
+
+1. **Misaligned Access**: RISC-V requires aligned memory access
+   - ❌ `lw t0, 1(sp)` (not aligned)
+   - ✅ `lw t0, 0(sp)` (aligned to 4 bytes)
+
+2. **Incorrect Pin Configuration**: Check datasheet for GPIO modes
+
+3. **Clock Configuration**: Some boards need clock initialization
+
+4. **Power Supply**: Ensure adequate power for peripherals
+
+5. **Wrong Memory Addresses**: Double-check peripheral base addresses
+
+### Performance Tips
+
+1. **Use compressed instructions (C extension)** - Smaller code, better cache usage
+2. **Enable instruction cache** if available
+3. **Optimize critical loops** - Minimize memory access
+4. **Use DMA** for bulk data transfers
+5. **Profile with hardware timers** - Measure actual execution time
+
+### Complete Example Project
+
+See **[Project 5: Bare Metal LED](./projects/05-bare-metal/)** for:
+- Complete working code for multiple boards
+- Detailed build instructions
+- Linker scripts
+- Startup code
+- GPIO control examples
+- Troubleshooting guide
+
 ## Resources
 
 ### Official Documentation
