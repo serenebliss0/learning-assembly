@@ -311,7 +311,7 @@ Create a directory.
 # int mkdirat(int dirfd, const char *pathname, mode_t mode)
 li a0, -100           # AT_FDCWD
 la a1, dirname        # pathname
-li a3, 0x1ED          # mode (0755)
+li a2, 0x1ED          # mode (0755)
 li a7, 34
 ecall
 ```

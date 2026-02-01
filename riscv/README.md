@@ -194,7 +194,7 @@ Want to run on real hardware?
 
 ### Development Boards
 
-**Budget (~$10-30):**
+**Budget (~$10-$30):**
 - Sipeed Longan Nano (GD32VF103) - RISC-V microcontroller
 - Seeed Studio XIAO ESP32C3 - WiFi + RISC-V
 

@@ -23,14 +23,14 @@ Write a bare metal program that runs directly on RISC-V hardware (no operating s
 
 ### Recommended Boards (Budget-Friendly)
 
-1. **Sipeed Longan Nano** (~$5-10)
+1. **Sipeed Longan Nano** (~$5-$10)
    - RISC-V GD32VF103 @ 108 MHz
    - 32KB SRAM, 128KB Flash
    - Built-in RGB LED
    - USB-C programming
    - Arduino-compatible headers
 
-2. **Seeed XIAO ESP32C3** (~$5-10)
+2. **Seeed XIAO ESP32C3** (~$5-$10)
    - RISC-V ESP32-C3 @ 160 MHz
    - WiFi + Bluetooth
    - 400KB SRAM, 4MB Flash
