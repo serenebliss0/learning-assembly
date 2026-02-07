@@ -74,12 +74,17 @@ _start:
     li a0, 0           # exit code
     li a7, 93          # syscall number for exit
     ecall
-```
+
 
 Assemble and link:
 ```bash
 riscv64-unknown-elf-as -march=rv32i -mabi=ilp32 hello.s -o hello.o
 riscv64-unknown-elf-ld hello.o -o hello
+```
+if that doesn't work try
+```bash
+riscv64-unknown-elf-as -march=rv32i -mabi=ilp32 hello.s -o hello.o
+riscv64-unknown-elf-ld -m elf32lriscv hello.o -o hello
 ```
 
 Run in QEMU:
