@@ -1,5 +1,6 @@
 # commands.s - Advanced command parser for RISC-V monitor
 # Demonstrates more sophisticated parsing techniques
+# REQUIRES: -march=rv32im (uses M extension for division/modulo)
 
 .section .data
 
@@ -126,16 +127,44 @@ mnem_ebreak: .string "ebreak"
 
 mnem_unknown: .string "???"
 
-# Register names
+# Register names - fixed 5-byte entries for easy lookup
+# Each entry is padded to 5 bytes for aligned access
+# Index by: reg_names + (register_number * 5)
+.align 2
 reg_names:
-    .string "zero", "ra", "sp", "gp"
-    .string "tp", "t0", "t1", "t2"
-    .string "s0", "s1", "a0", "a1"
-    .string "a2", "a3", "a4", "a5"
-    .string "a6", "a7", "s2", "s3"
-    .string "s4", "s5", "s6", "s7"
-    .string "s8", "s9", "s10", "s11"
-    .string "t3", "t4", "t5", "t6"
+    .string "zero\0"  # x0  (5 bytes: z e r o \0)
+    .string "ra\0\0\0"  # x1  (5 bytes: r a \0 \0 \0)
+    .string "sp\0\0\0"  # x2
+    .string "gp\0\0\0"  # x3
+    .string "tp\0\0\0"  # x4
+    .string "t0\0\0\0"  # x5
+    .string "t1\0\0\0"  # x6
+    .string "t2\0\0\0"  # x7
+    .string "s0\0\0\0"  # x8
+    .string "s1\0\0\0"  # x9
+    .string "a0\0\0\0"  # x10
+    .string "a1\0\0\0"  # x11
+    .string "a2\0\0\0"  # x12
+    .string "a3\0\0\0"  # x13
+    .string "a4\0\0\0"  # x14
+    .string "a5\0\0\0"  # x15
+    .string "a6\0\0\0"  # x16
+    .string "a7\0\0\0"  # x17
+    .string "s2\0\0\0"  # x18
+    .string "s3\0\0\0"  # x19
+    .string "s4\0\0\0"  # x20
+    .string "s5\0\0\0"  # x21
+    .string "s6\0\0\0"  # x22
+    .string "s7\0\0\0"  # x23
+    .string "s8\0\0\0"  # x24
+    .string "s9\0\0\0"  # x25
+    .string "s10\0\0"  # x26 (4 bytes + \0)
+    .string "s11\0\0"  # x27
+    .string "t3\0\0\0"  # x28
+    .string "t4\0\0\0"  # x29
+    .string "t5\0\0\0"  # x30
+    .string "t6\0\0\0"  # x31
+# To lookup: address = reg_names + (register_num * 5)
 
 .section .text
 

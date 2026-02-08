@@ -24,7 +24,10 @@ tick_count:
     .word 0
 
 timer_interval:
-    .word 100000           # Ticks between interrupts (platform-dependent timing)
+    .word 100000           # Ticks between interrupts
+                           # Platform-dependent: adjust based on CPU frequency
+                           # Formula: ticks = (frequency_hz * desired_seconds)
+                           # Example: 100MHz * 0.001s = 100000 ticks (1ms)
 
 .section .text
 .globl _start
