@@ -119,7 +119,7 @@ test_array:
 array_size:
     .word 10
 
-search_target:
+search_value:
     .word 18
 
 result_buffer:
@@ -150,7 +150,7 @@ _start:
     # Test 4: Linear search
     la a0, test_array
     lw a1, array_size
-    lw a2, search_target
+    lw a2, search_value
     call array_search
     mv s3, a0                   # s3 = index (6) or -1 if not found
     
