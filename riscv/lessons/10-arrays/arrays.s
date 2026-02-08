@@ -289,7 +289,7 @@ array_average:
     
     mv s0, a1                   # Save count
     call array_sum
-    div a0, a0, s0              # average = sum / count
+    div a0, a0, s0              # average = sum / count (requires M extension)
     
     lw s0, 8(sp)
     lw ra, 12(sp)

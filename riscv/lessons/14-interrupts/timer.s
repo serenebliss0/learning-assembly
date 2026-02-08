@@ -24,7 +24,7 @@ tick_count:
     .word 0
 
 timer_interval:
-    .word 100000           # Ticks between interrupts
+    .word 100000           # Ticks between interrupts (platform-dependent timing)
 
 .section .text
 .globl _start

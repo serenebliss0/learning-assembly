@@ -184,4 +184,3 @@ This comprehensive set of lessons provides a complete education in RISC-V assemb
 ---
 
 *Created as part of the learning-assembly repository*
-*Repository: https://github.com/[username]/learning-assembly*

@@ -417,8 +417,10 @@ Modifying an array in place saves memory but destroys original data.
 
 ## Building and Running
 
+**Note**: Some examples use the `div` instruction from the M extension (introduced in Lesson 12). Use `-march=rv32im` to assemble programs with division.
+
 ```bash
-# Assemble
+# Assemble (requires M extension for division in arrays.s)
 riscv64-unknown-elf-as -march=rv32im -mabi=ilp32 -o arrays.o arrays.s
 
 # Link

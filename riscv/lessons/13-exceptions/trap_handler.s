@@ -94,8 +94,8 @@ trap_handler:
     # csrr a1, mepc         # a1 = exception PC
     # csrr a2, mtval        # a2 = additional info
     
-    # For this demo, use dummy values
-    li a0, 0               # Assume no exception
+    # For this demo, use dummy values (non-functional demonstration code)
+    li a0, 0               # Dummy value (normally would read mcause)
     li a1, 0
     li a2, 0
     

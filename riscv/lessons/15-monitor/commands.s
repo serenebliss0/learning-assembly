@@ -25,7 +25,7 @@ command_table:
     .word cmd_str_copy, cmd_handler_copy, 3, 3
     .word cmd_help_copy
     
-    .word cmd_str_search, cmd_handler_search, 2, 2
+    .word cmd_str_search, cmd_handler_search, 3, 3
     .word cmd_help_search
     
     .word cmd_str_disasm, cmd_handler_disasm, 1, 2
