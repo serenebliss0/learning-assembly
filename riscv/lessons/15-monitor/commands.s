@@ -57,7 +57,7 @@ cmd_help_compare:
 cmd_help_copy:
     .string "copy <src> <dst> <len> - Copy memory region\n"
 cmd_help_search:
-    .string "search <addr> <len> <value> - Search for value in memory\n"
+    .string "search <addr> <len> <value> - Search for 32-bit value in memory\n"
 cmd_help_disasm:
     .string "disasm <addr> [count] - Disassemble instructions (default: 10)\n"
 
@@ -489,7 +489,7 @@ cmd_handler_search:
     bnez a1, search_error
     mv s1, a0
     
-    # Parse value (arg 3) - if present
+    # Parse value (arg 3) - required
     la t0, token_count
     lw t0, 0(t0)
     li t1, 4

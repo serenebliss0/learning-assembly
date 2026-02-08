@@ -645,7 +645,7 @@ cmd_get:
     sw ra, 0(sp)
     
     # For now, just print a message
-    la a0, msg_not_impl
+    la a0, msg_not_implemented
     call print_string
     
     lw ra, 0(sp)
@@ -658,7 +658,7 @@ cmd_set:
     addi sp, sp, -16
     sw ra, 0(sp)
     
-    la a0, msg_not_impl
+    la a0, msg_not_implemented
     call print_string
     
     lw ra, 0(sp)
@@ -671,7 +671,7 @@ cmd_regs:
     addi sp, sp, -16
     sw ra, 0(sp)
     
-    la a0, msg_not_impl
+    la a0, msg_not_implemented
     call print_string
     
     lw ra, 0(sp)
@@ -963,9 +963,9 @@ strlen_done:
     addi sp, sp, 16
     ret
 
-# === Data Section ===
-.section .data
-msg_not_impl:
+# === Additional Messages ===
+.section .rodata
+msg_not_implemented:
     .string "Command not yet implemented\n"
 
 # === Stack ===
