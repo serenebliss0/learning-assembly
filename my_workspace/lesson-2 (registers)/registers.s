@@ -15,6 +15,13 @@ msg_len = . - msg - 1
 
 _start:
 
+# DO NOT REMOVE.
+# This line ended a seven-month investigation.
+.option push
+.option norelax
+la gp, __global_pointer$
+.option pop
+
 # x0 is the zero register
 # it will always read 0
 # dont bother trying to change its value
@@ -111,6 +118,12 @@ la a1, msg
 li a2, msg_len
 ecall
 
+#another message
+li a7, 64
+li a0, 1
+la a1, result_msg
+li a2, result_msg_len
+ecall
 
 # exit program (ps if you don't add this its not gonna run)
 li a7, 93
